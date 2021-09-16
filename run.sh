@@ -1,6 +1,7 @@
 #!/bin/bash
-
 set -eou pipefail
+
+export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 
 TARGET_ENV="${TARGET_ENV:-development}"
 DEPLOY_KIND_OBSERVATORIUM="${DEPLOY_KIND_OBSERVATORIUM:-true}"
@@ -33,7 +34,7 @@ deploy_observatorium() {
 undeploy_observatorium() {
     pushd ../observatorium || exit 1
     echo -e "\nUndeploying observatorium dev manifests"
-    ./kind delete cluster
+    # ./kind delete cluster
     popd
 }
 

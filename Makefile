@@ -56,7 +56,7 @@ deploy-all-ocp-components: deploy-cadvisor deploy-observatorium-loki
 
 bench-dev: $(GINKGO) $(PROMETHEUS) $(EMBEDMD) $(REPORT_DIR)
 	@TARGET_ENV=development \
-	KUBECTL=../observatorium/kubectl \
+	KUBECTL=/usr/local/bin/kubectl \
 	OBS_NS=observatorium \
 	OBS_LOKI_QF="observatorium-xyz-loki-query-frontend" \
 	OBS_LOKI_QR="observatorium-xyz-loki-querier" \
@@ -64,6 +64,17 @@ bench-dev: $(GINKGO) $(PROMETHEUS) $(EMBEDMD) $(REPORT_DIR)
 	OBS_LOKI_ING="observatorium-xyz-loki-ingester" \
 	./run.sh
 .PHONY: bench-dev
+
+bench-kind: $(GINKGO) $(PROMETHEUS) $(EMBEDMD) $(REPORT_DIR)
+	@TARGET_ENV=kind \
+	KUBECTL=/usr/local/bin/kubectl \
+	OBS_NS=logging \
+	OBS_LOKI_QF="logging-loki-distributed-query-frontend" \
+	OBS_LOKI_QR="logging-loki-distributed-querier" \
+	OBS_LOKI_DST="logging-loki-distributed-distributor" \
+	OBS_LOKI_ING="logging-loki-distributed-ingester" \
+	./run.sh
+.PHONY: bench-kind
 
 bench-obs-logs-test: $(GINKGO) $(PROMETHEUS) $(EMBEDMD) $(REPORT_DIR)
 	@TARGET_ENV=ocp-observatorium-test \
