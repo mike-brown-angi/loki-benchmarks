@@ -65,6 +65,17 @@ bench-dev: $(GINKGO) $(PROMETHEUS) $(EMBEDMD) $(REPORT_DIR)
 	./run.sh
 .PHONY: bench-dev
 
+bench-dr: $(GINKGO) $(PROMETHEUS) $(EMBEDMD) $(REPORT_DIR)
+	@TARGET_ENV=devretry \
+	KUBECTL=/usr/local/bin/kubectl \
+	OBS_NS=observatorium \
+	OBS_LOKI_QF="observatorium-xyz-loki-query-frontend" \
+	OBS_LOKI_QR="observatorium-xyz-loki-querier" \
+	OBS_LOKI_DST="observatorium-xyz-loki-distributor" \
+	OBS_LOKI_ING="observatorium-xyz-loki-ingester" \
+	./run.sh
+.PHONY: bench-dr
+
 bench-kind: $(GINKGO) $(PROMETHEUS) $(EMBEDMD) $(REPORT_DIR)
 	@TARGET_ENV=kind \
 	KUBECTL=/usr/local/bin/kubectl \

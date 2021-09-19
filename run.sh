@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 set -eou pipefail
 
 export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
@@ -139,5 +140,5 @@ bench() {
 }
 
 bench
-
+set +x
 exit $?
